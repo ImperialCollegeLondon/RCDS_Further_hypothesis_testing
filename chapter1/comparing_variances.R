@@ -32,6 +32,7 @@ data %>% filter(type %in% c(4,5)) %>%
 # Formulate null and alternative hypothesis
 
 # Get log luminosity and compute variances
+table(data$type)
 type4 <- data %>% filter(type == 4) %>% pull(luminosity) %>% log
 type5 <- data %>% filter(type == 5) %>% pull(luminosity) %>% log
 var4 <- var(type4)
@@ -46,12 +47,13 @@ print(paste('difference:', var4 - var5))
 fstat <- var(type4) / var(type5)
 print(paste("F = ", fstat))
 
+# Compute p-value
+p_value <- pf(fstat, 39, 39)
+# p_value <- pf(fstat, 39, 39) * 2
+print(paste("p =", p_value))
+
 # Plot distribution
 x <- seq(0.1, 3, 0.01)
 plot(x, df(x, 39, 39), xlab = "F", ylab = "pdf", type = "l", col = "grey")
 x_region <- seq(0.1, fstat, 0.01)
 polygon(c(x_region, fstat, 0.01), c(df(x_region, 39, 39), 0, 0), border = NA, col = "lightgrey")
-
-# Compute p-value
-p_value <- pf(fstat, 39, 39) * 2
-print(paste("p =", p_value))

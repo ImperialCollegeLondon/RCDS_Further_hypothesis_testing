@@ -37,6 +37,7 @@ data %>% filter(type %in% c(4,5)) %>%
 # Formulate null and alternative hypothesis
 
 # Get log luminosity and compute mean values
+table(data$type)
 type4 <- data %>% filter(type == 4) %>% pull(luminosity) %>% log
 type5 <- data %>% filter(type == 5) %>% pull(luminosity) %>% log
 mean4 <- mean(type4)
