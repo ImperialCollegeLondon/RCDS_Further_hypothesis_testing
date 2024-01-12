@@ -10,10 +10,17 @@ library(tidyverse)
 # Set working directory
 setwd("/Users/jurtasun/Desktop/Courses/ICL/RCDS_Further_hypothesis_testing/chapter1")
 
+# Question: do types 4 and 5 have the same mean luminosity?
+
 # Read input data
 data <- read_csv("stars.csv")
 type_key <- c('Brown Dwarf', 'Red Dwarf', 'White Dwarf', 'Main Sequence', 'Supergiant','Hypergiant')
 spectral_classes <- c('O', 'B', 'A', 'F', 'G', 'K', 'M')
+      
+# Explore data
+head(data)
+class(data)
+dim(data)
 
 # Store type and spectral class as factors
 data$type <- factor(data$type)
@@ -38,6 +45,8 @@ print(paste('Type 4:', mean4))
 print(paste('Type 5:', mean5))
 print(paste('difference:', mean4 - mean5))
 
+# Mean values are similar, but is the difference between them statistically significant?
+
 # Compute t-test
 t.test(type4, type5, var.equal = TRUE, paired = FALSE, alternative = "two.sided")
 
@@ -49,11 +58,11 @@ print(paste("degrees of freedom:", df))
 # Build range for t distribution
 tmin <- -4
 tmax <- 4
-x <- seq(tmin,tmax,0.01)
-plot(x, dt(x,df), xlab="t", ylab="pdf", type="l", col="grey")
+x <- seq(tmin, tmax, 0.01)
+plot(x, dt(x, df), xlab = "t", ylab = "pdf", type = "l", col = "grey")
 
 # The area of the shaded region is the two-tailed p-value
 lower_tail <- seq(tmin, -t_obs, 0.01)
 upper_tail <- seq(t_obs, tmax, 0.01)
-polygon(c(lower_tail, -t_obs, tmin), c(dt(lower_tail, df), 0, 0), border= NA, col = "lightgrey")
+polygon(c(lower_tail, -t_obs, tmin), c(dt(lower_tail, df), 0, 0), border = NA, col = "lightgrey")
 polygon(c(upper_tail, tmax, t_obs), c(dt(upper_tail, df), 0, 0), border = NA, col = "lightgrey")

@@ -10,6 +10,8 @@ library(tidyverse)
 # Set working directory
 setwd("/Users/jurtasun/Desktop/Courses/ICL/RCDS_Further_hypothesis_testing/chapter1")
 
+# Question: do types 4 and 5 have the same variance in luminosity?
+
 # Read input data
 data <- read_csv("stars.csv")
 type_key <- c('Brown Dwarf', 'Red Dwarf', 'White Dwarf', 'Main Sequence', 'Supergiant','Hypergiant')
@@ -38,17 +40,18 @@ print(paste('Type 4:', var4))
 print(paste('Type 5:', var5))
 print(paste('difference:', var4 - var5))
 
-# Plot distribution
-x <- seq(0.1,3,0.01)
-plot(x,df(x, 39, 39), xlab = "F", ylab =" pdf", type = "l", col = "grey")
-
+# Variances are similar, but is the difference between them statistically significant?
 
 # Compute F variable
 fstat <- var(type4) / var(type5)
-print(paste("F =", fstat))
-plot(x, df(x, 39, 39), xlab = "F", ylab = "pdf", type = "l", col = "grey")
+print(paste("F = ", fstat))
 
-x_region <- seq(0.1,fstat,0.01)
+# Plot distribution
+x <- seq(0.1, 3, 0.01)
+plot(x, df(x, 39, 39), xlab = "F", ylab = "pdf", type = "l", col = "grey")
+x_region <- seq(0.1, fstat, 0.01)
 polygon(c(x_region, fstat, 0.01), c(df(x_region, 39, 39), 0, 0), border = NA, col = "lightgrey")
+
+# Compute p-value
 p_value <- pf(fstat, 39, 39) * 2
 print(paste("p =", p_value))
