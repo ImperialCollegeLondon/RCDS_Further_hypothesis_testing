@@ -47,6 +47,9 @@ print(paste('difference:', var4 - var5))
 fstat <- var(type4) / var(type5)
 print(paste("F = ", fstat))
 
+# rbinom(), dbinom(), pbinom(), qbinom()
+# rf(), df(), pf(), qf()
+
 # Compute p-value
 p_value <- pf(fstat, 39, 39)
 # p_value <- pf(fstat, 39, 39) * 2

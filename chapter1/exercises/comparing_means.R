@@ -11,6 +11,7 @@ library(tidyverse)
 setwd("/Users/jurtasun/Desktop/Courses/ICL/RCDS_Further_hypothesis_testing/chapter1")
 
 # Question: do types 4 and 5 have the same mean luminosity?
+# Question: do types 2 and 3 have the same mean luminosity?
 
 # Read input data
 data <- read_csv("stars.csv")
