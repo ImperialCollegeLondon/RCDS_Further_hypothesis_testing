@@ -36,10 +36,14 @@ critical_t = t.ppf(1 - 0.05, df)  # Critical t-value for 95% confidence, one-tai
 
 # Plot t-distribution
 x = np.linspace(-4, 4, 1000)
-y = t.pdf(x, df)
-plt.plot(x, y, label = "t-Distribution")
+t_dist = t.pdf(x, df = df) # Probability density function for t-distribution
+
+plt.plot(x, t_dist, label = "t-Distribution")
 # plt.axvline(critical_t, color = "red", linestyle = "--", label = f"Critical t = {critical_t:.2f}")
 plt.axvline(t_stat, color = "blue", linestyle = "--", label = f"Observed t = {t_stat:.2f}")
+plt.axvline(-t_stat, color = "blue", linestyle = "--", label = f"Observed t = {t_stat:.2f}")
+plt.fill_between(x, t_dist, where = (x >= abs(t_stat)), color = "red", alpha = 0.3, label = "Rejection region (one side)")
+plt.fill_between(x, t_dist, where = (x <= -abs(t_stat)), color = "red", alpha = 0.3)
 # plt.fill_between(x, 0, y, where=(x >= critical_t), color = "red", alpha = 0.3, label = "Rejection Region")
 plt.xlabel("t-value")
 plt.ylabel("Probability density")
@@ -54,4 +58,12 @@ print(f"One-sided p-value: {p_value_one_sided:.4f}")
 if p_value_one_sided < 0.05:
     print("The dice is likely biased (reject null hypothesis).")
 else:
-    print("The dice is not biased (fail to reject null hypothesis).\n")
+    print("No evidence of biased dice (fail to reject null hypothesis).\n")
+
+# Print results
+print(f"t-statistic: {t_stat:.4f}")
+print(f"Two-sided p-value: {p_value:.4f}")
+if p_value < 0.05:
+    print("The dice is likely biased (reject null hypothesis).")
+else:
+    print("No evidence of biased dice (fail to reject null hypothesis).")
